@@ -63,13 +63,13 @@ function getDate(weatherData){
 function getDegreeCelcius(weatherData){
     let degreeCelcius = weatherData.current.temp_c;
     degreeCelcius = `${degreeCelcius}°C`;
-    handleDisplay(degreeCelcius, 'degreeCelcius', mainTopRight)
+    handleDisplay(degreeCelcius, 'degreeCelcius', mainTopRight);
 }
 
 function getFeelsLikeC(weatherData){
     let degreeCelcius = weatherData.current.feelslike_c;
     degreeCelcius = `Feels like ${degreeCelcius}°C`;
-    handleDisplay(degreeCelcius, 'feels-like', mainTopRight)
+    handleDisplay(degreeCelcius, 'feels-like', mainTopRight);
 }
 
 function getWindData(weatherData){
@@ -81,43 +81,39 @@ function getWindData(weatherData){
     windDegree = `${windDegree}°`;
 
 
-    handleDisplayForGrid(windMph, mainGrid, 'Wind Speed')
-    handleDisplayForGrid(windDegree, mainGrid, 'Wind Deg')
-    handleDisplayForGrid(windDir, mainGrid, 'Wind Dir')
+    handleDisplayForGrid(windMph, mainGrid, 'Wind Speed');
+    handleDisplayForGrid(windDegree, mainGrid, 'Wind Deg');
+    handleDisplayForGrid(windDir, mainGrid, 'Wind Dir');
 }
 
 function getHumidity(weatherData){
     let humidity = weatherData.current.humidity;
     humidity = `${humidity}%`;
-    // console.log(humidity);
-    return humidity
+    handleDisplayForGrid(humidity, mainGrid, 'Humidity');
 }
 
 function getPrecip(weatherData){
     let precip = weatherData.current.precip_in;
     precip = `${precip} in`;
-    // console.log(precip);
-    return precip
+    handleDisplayForGrid(precip, mainGrid, 'Precipitation');
+
 }
 
 function getPressure(weatherData){
     let pressure = weatherData.current.pressure_in;
     pressure = `${pressure} in`;
-    // console.log(pressure);
-    return pressure
+    handleDisplayForGrid(pressure, mainGrid, 'Pressure');
 }
 
 function getUV(weatherData){
     let UV = weatherData.current.uv;
-    // console.log(UV);
-    return UV
+    handleDisplayForGrid(UV, mainGrid, 'UV');
 }
 
 function getVisibility(weatherData){
     let visibility = weatherData.current.pressure_in;
     visibility = `${visibility} km`;
-    // console.log(visibility);
-    return visibility
+    handleDisplayForGrid(visibility, mainGrid, 'Visibility');
 }
 
 function run(){
