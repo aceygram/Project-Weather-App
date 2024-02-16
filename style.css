@@ -16,7 +16,7 @@ body {
     color: white;
 }
 
-.header {
+.app-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -81,7 +81,7 @@ button svg {
 
 .degreeCelcius {
     font-size: 55px;
-    height: 105px;
+    height: 106px;
     display: flex;
     align-items: center;
 }
@@ -95,9 +95,34 @@ button svg {
 .main .top {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 30px;
 }
+
+.top-right {
+    padding-left: 30px;
+    border-left: 3px solid white;
+}
+
 
 .weather-icon {
     width: 100px;
+}
+
+.main-grid {
+    margin-top: 30px;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(3, 150px);
+}
+
+
+
+.gridCells .header {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.705);
+    margin-bottom: 5px;
+}
+
+.gridCells .header + div {
+    font-size: 25px;
 }
