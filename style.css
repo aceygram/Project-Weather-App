@@ -1,0 +1,103 @@
+*{
+    padding: 0;
+    margin: 0;
+    scroll-behavior: smooth;
+    font-family: "Nunito", sans-serif;
+}
+
+body {
+   
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/pexels-brett-sayles-1431822\ \(1\).jpg');
+   height: 100vh;
+    /* background-image: url(); */
+    /* background-position: center; */
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: white;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 40px 0px 20px;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    margin-top: 25px;
+    gap: 10px;
+}
+
+input {
+    width: 150px;
+    font-size: 20px;
+    padding: 0px 10px 5px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid white;
+    outline: none;
+    font-weight: bold;
+}
+
+input::placeholder{
+    color: white;
+}
+
+button{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+button svg {
+    height: 40px;
+    fill: white;
+}
+
+.location {
+    text-align: center;
+    font-weight: bold;
+}
+
+.fullLocation {
+    font-size: 40px;
+}
+
+.time {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.705);
+    margin-top: 5px;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: bold;
+    margin: 10px 0px 0px -20px;
+}
+
+.degreeCelcius {
+    font-size: 55px;
+    height: 105px;
+    display: flex;
+    align-items: center;
+}
+
+.condition,
+.feels-like {
+    color: rgba(255, 255, 255, 0.705);
+    text-align: center;
+}
+
+.main .top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.weather-icon {
+    width: 100px;
+}
