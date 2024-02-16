@@ -5,7 +5,7 @@ const container = document.querySelector('.container');
 const LocationField = document.querySelector('.location');
 const mainTopLeft = document.querySelector('.top-left');
 const mainTopRight = document.querySelector('.top-right');
-
+const mainGrid = document.querySelector('.main-grid')
 
 
 
@@ -17,7 +17,7 @@ async function getWeatherData() {
     //     },
     // );
     let link = await fetch(
-        `http://api.weatherapi.com/v1/current.json?key=21a7ef1547554808898142201241402&q=accra&aqi=yes`, {
+        `http://api.weatherapi.com/v1/current.json?key=21a7ef1547554808898142201241402&q=lagos&aqi=yes`, {
         mode: 'cors',
         },
     );
@@ -81,14 +81,9 @@ function getWindData(weatherData){
     windDegree = `${windDegree}°`;
 
 
-    // console.log(windMph);
-    // console.log(windDegree);
-    // console.log(windDir);
-    return {
-        windMph,
-        windDir,
-        windDegree
-    }
+    handleDisplayForGrid(windMph, mainGrid, 'Wind Speed')
+    handleDisplayForGrid(windDegree, mainGrid, 'Wind Deg')
+    handleDisplayForGrid(windDir, mainGrid, 'Wind Dir')
 }
 
 function getHumidity(weatherData){
@@ -153,6 +148,23 @@ function handleDisplay(value, Class, parent){
     div.innerText = value;
     div.className = `${Class}`;
     parent.appendChild(div);
+}
+
+function handleDisplayForGrid(value, parent, content){
+    const gridContainer = document.createElement('div');
+    const header = document.createElement('div');
+    const gridContent = document.createElement('div');
+
+    header.innerText = content;
+    gridContent.innerText = value;
+    
+    gridContainer.className = 'gridCells';
+    header.className = 'header';
+
+    
+    parent.appendChild(gridContainer);
+    gridContainer.appendChild(header);
+    gridContainer.appendChild(gridContent);
 }
 
 function handleIconDisplay(value, Class, parent){
