@@ -1,7 +1,23 @@
+const input = document.querySelector("input");
+const submit = document.querySelector(".submit");
+const body = document.querySelector('body');
+const container = document.querySelector('.container');
+const LocationField = document.querySelector('.location');
+const mainTopLeft = document.querySelector('.top-left');
+const mainTopRight = document.querySelector('.top-right');
+
+
+
 
 async function getWeatherData() {
+    const { value } = input;
+    // let link = await fetch(
+    //     `http://api.weatherapi.com/v1/current.json?key=21a7ef1547554808898142201241402&q=${value}&aqi=yes`, {
+    //     mode: 'cors',
+    //     },
+    // );
     let link = await fetch(
-        'http://api.weatherapi.com/v1/current.json?key=21a7ef1547554808898142201241402&q=Ibadan&aqi=yes', {
+        `http://api.weatherapi.com/v1/current.json?key=21a7ef1547554808898142201241402&q=accra&aqi=yes`, {
         mode: 'cors',
         },
     );
@@ -18,36 +34,42 @@ async function getWeatherData() {
 
 function getCondition(weatherData) {
     let condition = weatherData.current.condition.text;
-    let icon = weatherData.current.condition.icon;
-    console.log(icon);
-    console.log(condition);
+    let icon = `https:${weatherData.current.condition.icon}`;
+   
+    handleIconDisplay(icon, 'weather-icon', mainTopLeft);
+    handleDisplay(condition, 'condition', mainTopLeft);
 }
 
 function getLocation(weatherData) {
     let location = weatherData.location.name;
     let region = weatherData.location.region;
     let country = weatherData.location.country;
-    console.log(location);
-    console.log(region);
-    console.log(country);
+    let fullLocation;
+
+    if(location === region) {
+        fullLocation = `${location}, ${country}`;
+    } else {
+        fullLocation = `${location}, ${region}, ${country}`;
+    }
+    handleDisplay(fullLocation, 'fullLocation', LocationField);
 }
 
 function getDate(weatherData){
     let time = weatherData.location.localtime;
     time = convertDateFormat(time);
-    console.log(time);
+    handleDisplay(time, 'time', LocationField);
 }
 
 function getDegreeCelcius(weatherData){
     let degreeCelcius = weatherData.current.temp_c;
     degreeCelcius = `${degreeCelcius}°C`;
-    console.log(degreeCelcius);
+    handleDisplay(degreeCelcius, 'degreeCelcius', mainTopRight)
 }
 
 function getFeelsLikeC(weatherData){
     let degreeCelcius = weatherData.current.feelslike_c;
     degreeCelcius = `Feels like ${degreeCelcius}°C`;
-    console.log(degreeCelcius);
+    handleDisplay(degreeCelcius, 'feels-like', mainTopRight)
 }
 
 function getWindData(weatherData){
@@ -59,74 +81,108 @@ function getWindData(weatherData){
     windDegree = `${windDegree}°`;
 
 
-    console.log(windMph);
-    console.log(windDegree);
-    console.log(windDir);
+    // console.log(windMph);
+    // console.log(windDegree);
+    // console.log(windDir);
+    return {
+        windMph,
+        windDir,
+        windDegree
+    }
 }
 
 function getHumidity(weatherData){
     let humidity = weatherData.current.humidity;
     humidity = `${humidity}%`;
-    console.log(humidity);
+    // console.log(humidity);
+    return humidity
 }
 
 function getPrecip(weatherData){
     let precip = weatherData.current.precip_in;
     precip = `${precip} in`;
-    console.log(precip);
+    // console.log(precip);
+    return precip
 }
 
 function getPressure(weatherData){
     let pressure = weatherData.current.pressure_in;
     pressure = `${pressure} in`;
-    console.log(pressure);
+    // console.log(pressure);
+    return pressure
 }
 
 function getUV(weatherData){
     let UV = weatherData.current.uv;
-    console.log(UV);
+    // console.log(UV);
+    return UV
 }
 
 function getVisibility(weatherData){
     let visibility = weatherData.current.pressure_in;
     visibility = `${visibility} km`;
-    console.log(visibility);
+    // console.log(visibility);
+    return visibility
 }
 
-getWeatherData()
-.then(value => {
-    getCondition(value)
-    getLocation(value)
-    getDate(value)
-    getDegreeCelcius(value)
-    getFeelsLikeC(value)
-    getWindData(value)
-    getHumidity(value)
-    getPrecip(value)
-    getPressure(value)
-    getUV(value)
-    getVisibility(value)
-}).catch((err) => {
-    console.log(err)
-})
+function run(){
+    // LocationField.innerHTML = '';
+    // mainField.innerHTML = '';
+
+    getWeatherData()
+    .then(value => {
+        getLocation(value)
+        getDate(value)
+        getCondition(value)
+        getDegreeCelcius(value)
+        getFeelsLikeC(value)
+        getWindData(value)
+        getHumidity(value)
+        getPrecip(value)
+        getPressure(value)
+        getUV(value)
+        getVisibility(value)
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+}
+
+function handleDisplay(value, Class, parent){
+    const div = document.createElement('div');
+    div.innerText = value;
+    div.className = `${Class}`;
+    parent.appendChild(div);
+}
+
+function handleIconDisplay(value, Class, parent){
+    const img = document.createElement('img');
+    img.src = value;
+    img.className = `${Class}`;
+    parent.appendChild(img);
+}
+
+
 
 
 
 function convertDateFormat(dateStr) {
     const inputDate = new Date(dateStr);
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const months = ['January', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   
     const dayOfWeek = days[inputDate.getDay()];
     const dayOfMonth = inputDate.getDate();
     const month = months[inputDate.getMonth()];
-    const year = inputDate.getFullYear().toString().slice(-2);
+    const year = inputDate.getFullYear().toString();
     let hours = inputDate.getHours();
     const ampm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12 || 12; // Convert midnight (0) to 12
     const minutes = inputDate.getMinutes();
   
-    const formattedDate = `${dayOfWeek}, ${dayOfMonth}th ${month} '${year} ${hours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+    const formattedDate = `${dayOfWeek}, ${dayOfMonth}th ${month} ${year}  |  ${hours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
     return formattedDate;
 }
   
+// submit.addEventListener('click', run)
+run();
