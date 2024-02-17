@@ -39,6 +39,7 @@ input {
     border-bottom: 2px solid white;
     outline: none;
     font-weight: bold;
+    color: white;
 }
 
 input::placeholder{
@@ -128,3 +129,20 @@ button svg {
     font-size: 25px;
     text-align: center;
 }
+
+#loading-screen {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #loading-logo {
+    width: 100px; /* Adjust the logo size as needed */
+  }
