@@ -1,7 +1,5 @@
 const input = document.querySelector("input");
 const submit = document.querySelector(".submit");
-const body = document.querySelector('body');
-const container = document.querySelector('.container');
 const LocationField = document.querySelector('.location');
 const mainTopLeft = document.querySelector('.top-left');
 const mainTopRight = document.querySelector('.top-right');
@@ -11,13 +9,8 @@ const mainGrid = document.querySelector('.main-grid')
 
 async function getWeatherData() {
     const { value } = input;
-    // let link = await fetch(
-    //     `http://api.weatherapi.com/v1/current.json?key=21a7ef1547554808898142201241402&q=${value}&aqi=yes`, {
-    //     mode: 'cors',
-    //     },
-    // );
     let link = await fetch(
-        `http://api.weatherapi.com/v1/current.json?key=21a7ef1547554808898142201241402&q=lagos&aqi=yes`, {
+        `http://api.weatherapi.com/v1/current.json?key=21a7ef1547554808898142201241402&q=${value}&aqi=yes`, {
         mode: 'cors',
         },
     );
@@ -111,15 +104,43 @@ function getUV(weatherData){
 }
 
 function getVisibility(weatherData){
-    let visibility = weatherData.current.pressure_in;
+    let visibility = Math.round(weatherData.current.vis_km);
     visibility = `${visibility} km`;
     handleDisplayForGrid(visibility, mainGrid, 'Visibility');
 }
 
-function run(){
-    // LocationField.innerHTML = '';
-    // mainField.innerHTML = '';
+function clearField() {
+    LocationField.innerHTML = ' ';
+    mainTopLeft.innerHTML = ' ';
+    mainTopRight.innerHTML = ' '; 
+    mainGrid.innerHTML = ' ';
+}
 
+function activateLoadingScreen() {
+    showLoadingScreen();
+
+    // Simulate an API request (replace this with your actual API request)
+    setTimeout(function () {
+      // After fetching data, hide the loading screen
+      hideLoadingScreen();
+
+      // Add your logic to handle the fetched data and update the content
+      // For example, you can update the content inside the "content" div
+      document.getElementById("content").innerHTML = "Data loaded!";
+    }, 1000); // Simulating a 2-second API request delay
+}
+
+function showLoadingScreen() {
+    document.getElementById("loading-screen").style.display = "flex";
+  }
+
+  function hideLoadingScreen() {
+    document.getElementById("loading-screen").style.display = "none";
+  }
+
+function run(){
+    activateLoadingScreen();
+    clearField();
     getWeatherData()
     .then(value => {
         getLocation(value)
@@ -192,5 +213,10 @@ function convertDateFormat(dateStr) {
     return formattedDate;
 }
   
-// submit.addEventListener('click', run)
-run();
+submit.addEventListener('click', run)
+input.addEventListener('keypress', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        run();
+      }
+});
