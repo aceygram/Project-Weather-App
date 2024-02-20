@@ -25,6 +25,23 @@ async function getWeatherData() {
     return link;
 }
 
+async function getWeatherDataForIntialLoading() {
+    let link = await fetch(
+        `http://api.weatherapi.com/v1/current.json?key=21a7ef1547554808898142201241402&q=lagos&aqi=yes`, {
+        mode: 'cors',
+        },
+    );
+    try {
+        if (link.status === 200){
+            // console.log(link.json());
+            return  link.json();
+        }
+    } catch (err) {
+        console.log(err)
+    }
+    return link;
+}
+
 function getCondition(weatherData) {
     let condition = weatherData.current.condition.text;
     let icon = `https:${weatherData.current.condition.icon}`;
@@ -40,6 +57,8 @@ function getLocation(weatherData) {
     let fullLocation;
 
     if(location === region) {
+        fullLocation = `${location}, ${country}`;
+    } else if (region = ' ') {
         fullLocation = `${location}, ${country}`;
     } else {
         fullLocation = `${location}, ${region}, ${country}`;
@@ -123,20 +142,16 @@ function activateLoadingScreen() {
     setTimeout(function () {
       // After fetching data, hide the loading screen
       hideLoadingScreen();
-
-      // Add your logic to handle the fetched data and update the content
-      // For example, you can update the content inside the "content" div
-      document.getElementById("content").innerHTML = "Data loaded!";
     }, 1000); // Simulating a 2-second API request delay
 }
 
 function showLoadingScreen() {
     document.getElementById("loading-screen").style.display = "flex";
-  }
+}
 
-  function hideLoadingScreen() {
+function hideLoadingScreen() {
     document.getElementById("loading-screen").style.display = "none";
-  }
+}
 
 function run(){
     activateLoadingScreen();
@@ -154,10 +169,46 @@ function run(){
         getPressure(value)
         getUV(value)
         getVisibility(value)
+        input.setAttribute('placeholder', 'Search City...');
+        input.value = '';
     })
     .catch((err) => {
         console.log(err)
+        showErr();
     })
+}
+
+function runInitialLoading(){
+    activateLoadingScreen();
+    clearField();
+    getWeatherDataForIntialLoading()
+    .then(value => {
+        getLocation(value)
+        getDate(value)
+        getCondition(value)
+        getDegreeCelcius(value)
+        getFeelsLikeC(value)
+        getWindData(value)
+        getHumidity(value)
+        getPrecip(value)
+        getPressure(value)
+        getUV(value)
+        getVisibility(value)
+    })
+    .catch((err) => {
+        console.log(err)
+        showErr();
+    })
+}
+
+
+function showErr() {
+    setTimeout(() => {
+        const warning = document.createElement('div');
+        warning.className = 'warning'
+        warning.textContent = 'City not found!'
+        LocationField.appendChild(warning);
+    }, 500)
 }
 
 function handleDisplay(value, Class, parent){
@@ -220,3 +271,5 @@ input.addEventListener('keypress', (event) => {
         run();
       }
 });
+
+runInitialLoading();
