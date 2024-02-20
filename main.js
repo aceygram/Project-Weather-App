@@ -10,7 +10,7 @@ const mainGrid = document.querySelector('.main-grid')
 async function getWeatherData() {
     const { value } = input;
     let link = await fetch(
-        `http://api.weatherapi.com/v1/current.json?key=21a7ef1547554808898142201241402&q=${value}&aqi=yes`, {
+        `https://api.weatherapi.com/v1/current.json?key=21a7ef1547554808898142201241402&q=${value}&aqi=yes`, {
         mode: 'cors',
         },
     );
@@ -27,7 +27,7 @@ async function getWeatherData() {
 
 async function getWeatherDataForIntialLoading() {
     let link = await fetch(
-        `http://api.weatherapi.com/v1/current.json?key=21a7ef1547554808898142201241402&q=lagos&aqi=yes`, {
+        `https://api.weatherapi.com/v1/current.json?key=21a7ef1547554808898142201241402&q=lagos&aqi=yes`, {
         mode: 'cors',
         },
     );
