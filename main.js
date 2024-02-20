@@ -58,7 +58,7 @@ function getLocation(weatherData) {
 
     if(location === region) {
         fullLocation = `${location}, ${country}`;
-    } else if (region = ' ') {
+    } else if (region === '') {
         fullLocation = `${location}, ${country}`;
     } else {
         fullLocation = `${location}, ${region}, ${country}`;
