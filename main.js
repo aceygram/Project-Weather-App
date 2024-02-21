@@ -171,6 +171,7 @@ function run(){
         getVisibility(value)
         input.setAttribute('placeholder', 'Search City...');
         input.value = '';
+        input.blur();
     })
     .catch((err) => {
         console.log(err)
