@@ -39,6 +39,15 @@ input {
     color: white;
 }
 
+input {
+    -webkit-appearance: none;
+    border-radius: 0; /* Reset border-radius for iOS */
+}
+  
+input:focus {
+    border-bottom: 2px solid white; /* Adjust as needed */
+}
+
 input::placeholder{
     color: white;
 }
