@@ -247,23 +247,28 @@ function handleIconDisplay(value, Class, parent){
 
 
 function convertDateFormat(dateStr) {
-    // Modify the input date string format
-    const modifiedDateStr = dateStr.replace(/(\d{4}-\d{2}-\d{2} \d{1,2}:\d{2}).*/, '$1');
+    const parts = dateStr.match(/(\d+)-(\d+)-(\d+) (\d+):(\d+)/);
+    if (!parts) {
+        // Handle invalid date string
+        return "Invalid date format";
+    }
 
-    const inputDate = new Date(modifiedDateStr);
+    const [_, year, month, day, hours, minutes] = parts;
+
+    const inputDate = new Date(year, month - 1, day, hours, minutes);
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
     const dayOfWeek = days[inputDate.getDay()];
     const dayOfMonth = inputDate.getDate();
-    const month = months[inputDate.getMonth()];
-    const year = inputDate.getFullYear().toString();
-    let hours = inputDate.getHours();
-    const ampm = hours >= 12 ? 'pm' : 'am';
-    hours = hours % 12 || 12; // Convert midnight (0) to 12
-    const minutes = inputDate.getMinutes();
+    const monthName = months[inputDate.getMonth()];
+    const yearValue = inputDate.getFullYear().toString();
+    let formattedHours = inputDate.getHours();
+    const ampm = formattedHours >= 12 ? 'pm' : 'am';
+    formattedHours = formattedHours % 12 || 12; // Convert midnight (0) to 12
+    const formattedMinutes = inputDate.getMinutes();
 
-    const formattedDate = `${dayOfWeek}, ${dayOfMonth}th ${month} ${year}  |  ${hours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+    const formattedDate = `${dayOfWeek}, ${dayOfMonth}th ${monthName} ${yearValue}  |  ${formattedHours}:${formattedMinutes.toString().padStart(2, '0')} ${ampm}`;
     return formattedDate;
 }
   
