@@ -68,6 +68,7 @@ function getLocation(weatherData) {
 
 function getDate(weatherData){
     let time = weatherData.location.localtime;
+    console.log(time)
     time = convertDateFormat(time);
     handleDisplay(time, 'time', LocationField);
 }
@@ -245,13 +246,14 @@ function handleIconDisplay(value, Class, parent){
 
 
 
-
-
 function convertDateFormat(dateStr) {
-    const inputDate = new Date(dateStr);
+    // Modify the input date string format
+    const modifiedDateStr = dateStr.replace(/(\d{4}-\d{2}-\d{2} \d{1,2}:\d{2}).*/, '$1');
+
+    const inputDate = new Date(modifiedDateStr);
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const months = ['January', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
     const dayOfWeek = days[inputDate.getDay()];
     const dayOfMonth = inputDate.getDate();
     const month = months[inputDate.getMonth()];
@@ -260,7 +262,7 @@ function convertDateFormat(dateStr) {
     const ampm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12 || 12; // Convert midnight (0) to 12
     const minutes = inputDate.getMinutes();
-  
+
     const formattedDate = `${dayOfWeek}, ${dayOfMonth}th ${month} ${year}  |  ${hours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
     return formattedDate;
 }
